@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+html {
+  overflow-x: hidden;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+
