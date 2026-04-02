@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Hero() {
   const [scale, setScale] = useState(1);
   const [growing, setGrowing] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,11 +45,17 @@ export default function Hero() {
 
           <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-2">
 
-            <button className="bg-red-500 hover:bg-red-600 text-white px-7 py-3 rounded-xl font-semibold shadow-lg transition">
+            <button
+              onClick={() => navigate("/checkout")}
+              className="bg-red-500 hover:bg-red-600 text-white px-7 py-3 rounded-xl font-semibold shadow-lg transition"
+            >
               Buyurtma berish
             </button>
 
-            <button className="border border-gray-300 px-7 py-3 rounded-xl font-semibold hover:bg-gray-100 transition">
+            <button
+              onClick={() => navigate("/menu")}
+              className="border border-gray-300 px-7 py-3 rounded-xl font-semibold hover:bg-gray-100 transition"
+            >
               Menu ko‘rish
             </button>
 

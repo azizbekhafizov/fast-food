@@ -1,21 +1,26 @@
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { IoClose } from "react-icons/io5"
-import { useUI } from "../context/UIContext"
+// src/components/AuthModal.jsx
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { IoClose } from "react-icons/io5";
+import { useAppUI } from "../context/AppUIContext";
 
 export default function AuthModal() {
-  const { authOpen, setAuthOpen, login } = useUI()
-  const [isLogin, setIsLogin] = useState(true)
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const { authOpen, setAuthOpen, login } = useAppUI();
+  const [isLogin, setIsLogin] = useState(true);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  if (!authOpen) return null
+  if (!authOpen) return null;
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    login({ name: name || "User", email })
-  }
+    e.preventDefault();
+    // Login/Register uchun minimal implementatsiya
+    login({ name: name || "User", email });
+    setName("");
+    setEmail("");
+    setPassword("");
+  };
 
   return (
     <>
@@ -30,9 +35,7 @@ export default function AuthModal() {
         className="fixed z-50 bg-white w-[90%] max-w-md p-6 rounded-2xl shadow-xl top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       >
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold">
-            {isLogin ? "Login" : "Register"}
-          </h2>
+          <h2 className="text-xl font-bold">{isLogin ? "Login" : "Register"}</h2>
           <button onClick={() => setAuthOpen(false)}>
             <IoClose size={24} />
           </button>
@@ -93,5 +96,5 @@ export default function AuthModal() {
         </form>
       </motion.div>
     </>
-  )
+  );
 }
