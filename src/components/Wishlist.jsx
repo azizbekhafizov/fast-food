@@ -1,10 +1,19 @@
 import { FiX } from "react-icons/fi";
-import { useShop } from "../context/ShopContext"
-
+import { useShop } from "../context/ShopContext";
+import { useAppUI } from "../context/AppUIContext";
 
 export default function Wishlist() {
-  const { wishlistOpen, setWishlistOpen } = useUI();
-  const { wishlist, toggleWishlist } = useShop()
+
+  const {
+    wishlistOpen,
+    setWishlistOpen
+  } = useAppUI();
+
+  const {
+    wishlist,
+    toggleWishlist,
+    addToCart
+  } = useShop();
 
   if (!wishlistOpen) return null;
 
@@ -13,59 +22,87 @@ export default function Wishlist() {
       {/* overlay */}
       <div
         onClick={() => setWishlistOpen(false)}
-        className="fixed inset-0 bg-black/30 z-40"
+        className="fixed inset-0 bg-black/40 z-40"
       />
 
       {/* drawer */}
-      <div className="fixed top-20 right-0 w-80 h-[calc(100%-5rem)] bg-white shadow-2xl rounded-l-2xl p-4 z-50 overflow-y-auto">
+      <div className="fixed top-0 right-0 w-[360px] h-screen bg-white z-50 shadow-2xl p-5 overflow-y-auto">
 
-        {/* header */}
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">Sevimlilar</h2>
+        <div className="flex items-center justify-between border-b pb-4">
 
-          <button onClick={() => setWishlistOpen(false)}>
+          <h2 className="text-2xl font-bold">
+            Wishlist ❤️
+          </h2>
+
+          <button
+            onClick={() => setWishlistOpen(false)}
+          >
             <FiX size={24} />
           </button>
+
         </div>
 
-        {/* empty */}
         {wishlist.length === 0 ? (
-          <p className="text-gray-500 text-center mt-10">
-            Sevimlilar bo'sh
-          </p>
+
+          <div className="flex justify-center items-center h-[80vh] text-gray-400">
+            Wishlist bo'sh 😢
+          </div>
+
         ) : (
 
-          <ul className="space-y-3">
+          <div className="space-y-4 mt-5">
 
             {wishlist.map(item => (
 
-              <li
+              <div
                 key={item.id}
-                className="flex items-center justify-between bg-white p-3 rounded-xl shadow hover:shadow-md transition"
+                className="bg-gray-50 rounded-2xl p-3 flex gap-3"
               >
-                <div className="flex items-center gap-3">
-                  <img
-                    src={item.image}
-                    className="w-14 h-14 rounded-lg object-cover"
-                  />
-                  <div>
-                    <p className="font-medium">{item.name}</p>
-                    <p className="text-sm text-gray-400">{item.price} so'm</p>
+
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-20 h-20 rounded-xl object-cover"
+                />
+
+                <div className="flex-1">
+
+                  <h3 className="font-semibold">
+                    {item.name}
+                  </h3>
+
+                  <p className="text-red-500 font-bold mt-1">
+                    {item.price} so'm
+                  </p>
+
+                  <div className="flex gap-2 mt-3">
+
+                    <button
+                      onClick={() => addToCart(item)}
+                      className="bg-black text-white px-4 py-2 rounded-xl text-sm"
+                    >
+                      Cart
+                    </button>
+
+                    <button
+                      onClick={() => toggleWishlist(item)}
+                      className="border px-4 py-2 rounded-xl text-sm"
+                    >
+                      Remove
+                    </button>
+
                   </div>
+
                 </div>
 
-                <button
-                  onClick={() => toggleWishlist(item)}
-                  className="text-red-500 text-xl"
-                >
-                  ×
-                </button>
-              </li>
+              </div>
 
             ))}
 
-          </ul>
+          </div>
+
         )}
+
       </div>
     </>
   );

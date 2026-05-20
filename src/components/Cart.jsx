@@ -7,7 +7,7 @@ export default function Cart() {
     cart,
     removeFromCart,
     changeQty,
-    getTotal
+    cartTotal
   } = useShop()
 
   if (cart.length === 0) {
@@ -95,7 +95,7 @@ export default function Cart() {
       <div className="mt-10 text-right">
 
         <h2 className="text-2xl font-bold">
-          Jami: {getTotal()} so'm
+          Jami: {cartTotal()} so'm
         </h2>
 
         <button className="mt-4 bg-black text-white px-6 py-3 rounded-xl hover:scale-105 transition">

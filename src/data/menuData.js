@@ -619,7 +619,7 @@ export const menuData = [
     price: 9000,
   },
   {
-    id: 39,
+    id: 42,
     name: " Fanta 1.5l ",
     category: "colddrinks",
     image: "/images/pizza.png",
@@ -627,7 +627,7 @@ export const menuData = [
     price: 9000,
   },
   {
-    id: 40,
+    id: 43,
     name: " Fanta 1l ",
     category: "colddrinks",
     image: "/images/pizza.png",
@@ -635,7 +635,7 @@ export const menuData = [
     price: 9000,
   },
   {
-    id: 41,
+    id: 44,
     name: "  Fanta 0.5l ",
     category: "colddrinks",
     image: "/images/pizza.png",
@@ -643,7 +643,7 @@ export const menuData = [
     price: 9000,
   },
   {
-    id: 42,
+    id: 45,
     name: " Kofe ",
     category: "hotdrinks",
     image: "/images/pizza.png",
@@ -651,7 +651,7 @@ export const menuData = [
     price: 9000,
   },
   {
-    id: 43,
+    id: 46,
     name: " Kofe ",
     category: "hotdrinks",
     image: "/images/pizza.png",
@@ -659,7 +659,7 @@ export const menuData = [
     price: 9000,
   },
   {
-    id: 44,
+    id: 47,
     name: " Kofe ",
     category: "hotdrinks",
     image: "/images/pizza.png",

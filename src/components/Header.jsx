@@ -8,7 +8,11 @@ import { useShop } from "../context/ShopContext";
 import { useAppUI } from "../context/AppUIContext";
 
 export default function Header() {
-  const { cart } = useShop();
+  const {
+  cart,
+  wishlist,
+  cartCount
+} = useShop();
 
   // AppUIContext orqali barcha UI state’larni olamiz
   const {
@@ -49,9 +53,9 @@ export default function Header() {
               className="relative hover:text-primary transition"
             >
               <FiHeart size={22} />
-              {cart.length > 0 && (
+              {wishlist.length > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
-                  {cart.length}
+                  {wishlist.length}
                 </span>
               )}
             </button>
@@ -61,7 +65,7 @@ export default function Header() {
               <FiShoppingCart size={22} />
               {cart.length > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
-                  {cart.reduce((acc, i) => acc + i.qty, 0)}
+                  {cartCount}
                 </span>
               )}
             </Link>

@@ -3,11 +3,8 @@ import { motion } from "framer-motion";
 import { IoClose } from "react-icons/io5";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useAppUI } from "../context/AppUIContext";
 
-export default function ProductModal({ product }) {
-  const { setSidebarOpen } = useAppUI(); // Agar kerak bo‘lsa boshqa togglelar
-
+export default function ProductModal({ product, onClose }) {
   const [qty, setQty] = useState(1);
   const [variant, setVariant] = useState(
     product.variants ? product.variants[0] : null
@@ -17,12 +14,13 @@ export default function ProductModal({ product }) {
 
   const handleAdd = () => {
     toast.success(`${product.name} tanlandi (${qty} dona)`);
+    onClose();
   };
 
   return (
     <>
       <div
-        onClick={() => setSidebarOpen(false)}
+        onClick={onClose}
         className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
       />
 
@@ -31,7 +29,7 @@ export default function ProductModal({ product }) {
         animate={{ scale: 1, opacity: 1 }}
         className="fixed z-50 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white w-[1000px] max-w-[95%] rounded-3xl shadow-2xl p-6"
       >
-        <button onClick={() => setSidebarOpen(false)} className="absolute right-4 top-4">
+        <button onClick={onClose} className="absolute right-4 top-4">
           <IoClose size={26} />
         </button>
 
@@ -46,9 +44,9 @@ export default function ProductModal({ product }) {
               <div className="mt-6">
                 <h3 className="font-semibold mb-3">O'lchamni tanlang</h3>
                 <div className="flex gap-3">
-                  {product.variants.map((v) => (
+                  {product.variants.map((v, i) => (
                     <button
-                      key={v.name}
+                      key={`${v.name}-${i}`}
                       onClick={() => setVariant(v)}
                       className={`px-5 py-2 rounded-xl border font-medium transition ${
                         variant?.name === v.name
