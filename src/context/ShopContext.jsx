@@ -1,177 +1,184 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState
-} from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 const ShopContext = createContext();
 
 export const ShopProvider = ({ children }) => {
 
-  const [wishlist, setWishlist] = useState([]);
-  const [cart, setCart] = useState([]);
+  // ================= LOAD FROM LOCALSTORAGE =================
 
-  // LOAD
+  const [wishlist, setWishlist] = useState(() => {
+    try {
+      const data = localStorage.getItem("wishlist");
+      return data ? JSON.parse(data) : [];
+    } catch (error) {
+      console.log("Wishlist load error:", error);
+      return [];
+    }
+  });
+
+  const [cart, setCart] = useState(() => {
+    try {
+      const data = localStorage.getItem("cart");
+      return data ? JSON.parse(data) : [];
+    } catch (error) {
+      console.log("Cart load error:", error);
+      return [];
+    }
+  });
+
+  // ================= SAVE TO LOCALSTORAGE =================
+
   useEffect(() => {
-
-    const savedWishlist =
-      JSON.parse(localStorage.getItem("wishlist")) || [];
-
-    const savedCart =
-      JSON.parse(localStorage.getItem("cart")) || [];
-
-    setWishlist(savedWishlist);
-    setCart(savedCart);
-
-  }, []);
-
-  // SAVE
-  useEffect(() => {
-    localStorage.setItem(
-      "wishlist",
-      JSON.stringify(wishlist)
-    );
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
   }, [wishlist]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "cart",
-      JSON.stringify(cart)
-    );
+    localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
-  // =================
-  // WISHLIST
-  // =================
+  // ================= WISHLIST =================
 
   const toggleWishlist = (item) => {
+    if (!item?.id) return;
 
-    setWishlist(prev => {
-
-      const exists =
-        prev.some(i => i.id === item.id);
+    setWishlist((prev) => {
+      const exists = prev.find((i) => i.id === item.id);
 
       if (exists) {
-        return prev.filter(i => i.id !== item.id);
+        return prev.filter((i) => i.id !== item.id);
       }
 
       return [...prev, item];
-
     });
   };
 
   const isInWishlist = (id) => {
-    return wishlist.some(i => i.id === id);
+    return wishlist.some((i) => i.id === id);
   };
 
-  // =================
-  // CART
-  // =================
+  // ================= CART =================
 
   const addToCart = (item) => {
+    if (!item?.id) return;
 
-    setCart(prev => {
+    setCart((prev) => {
+      const exists = prev.find((i) => i.id === item.id);
 
-      const exists =
-        prev.find(i => i.id === item.id);
-
+      // AGAR PRODUCT OLDIN QO'SHILGAN BO'LSA
       if (exists) {
-
-        return prev.map(i =>
+        return prev.map((i) =>
           i.id === item.id
-            ? { ...i, qty: i.qty + 1 }
+            ? {
+                ...i,
+                qty: (i.qty || 1) + 1,
+              }
             : i
         );
       }
 
+      // YANGI PRODUCT
       return [
         ...prev,
         {
           ...item,
-          qty: 1
-        }
+          qty: 1,
+        },
       ];
-
     });
   };
 
+  // ================= REMOVE CART =================
+
   const removeFromCart = (id) => {
-    setCart(prev =>
-      prev.filter(i => i.id !== id)
-    );
+    if (!id) return;
+
+    setCart((prev) => prev.filter((i) => i.id !== id));
   };
 
-  const changeQty = (id, type) => {
+  // ================= CHANGE QTY =================
 
-    setCart(prev =>
-      prev.map(i => {
+  const changeQty = (id, type) => {
+    if (!id || !type) return;
+
+    setCart((prev) =>
+      prev.map((i) => {
 
         if (i.id !== id) return i;
 
-        if (type === "inc") {
-          return {
-            ...i,
-            qty: i.qty + 1
-          };
-        }
+        const qty =
+          type === "inc"
+            ? (i.qty || 1) + 1
+            : Math.max(1, (i.qty || 1) - 1);
 
-        if (type === "dec") {
-          return {
-            ...i,
-            qty: i.qty > 1
-              ? i.qty - 1
-              : 1
-          };
-        }
-
-        return i;
-
+        return {
+          ...i,
+          qty,
+        };
       })
     );
   };
 
-  // =================
-  // TOTALS
-  // =================
+  // ================= CLEAR CART =================
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
+  // ================= TOTALS =================
 
   const cartCount = useMemo(() => {
-    return cart.reduce(
-      (acc, item) => acc + item.qty,
-      0
-    );
+    return cart.reduce((acc, item) => {
+      return acc + (item.qty || 1);
+    }, 0);
   }, [cart]);
 
   const cartTotal = useMemo(() => {
-    return cart.reduce(
-      (acc, item) =>
-        acc + item.price * item.qty,
-      0
-    );
+    return cart.reduce((acc, item) => {
+
+      const price = Number(item.price) || 0;
+      const qty = item.qty || 1;
+
+      return acc + (price * qty);
+
+    }, 0);
   }, [cart]);
 
+  // ================= CONTEXT VALUE =================
+
+  const value = {
+    // wishlist
+    wishlist,
+    toggleWishlist,
+    isInWishlist,
+
+    // cart
+    cart,
+    addToCart,
+    removeFromCart,
+    changeQty,
+    clearCart,
+
+    // totals
+    cartCount,
+    cartTotal,
+  };
+
   return (
-    <ShopContext.Provider
-      value={{
-
-        wishlist,
-        toggleWishlist,
-        isInWishlist,
-
-        cart,
-        addToCart,
-        removeFromCart,
-        changeQty,
-
-        cartCount,
-        cartTotal
-
-      }}
-    >
+    <ShopContext.Provider value={value}>
       {children}
     </ShopContext.Provider>
   );
 };
 
-export const useShop = () => useContext(ShopContext);
+// ================= CUSTOM HOOK =================
+
+export const useShop = () => {
+
+  const context = useContext(ShopContext);
+
+  if (!context) {
+    throw new Error("useShop must be used within ShopProvider");
+  }
+
+  return context;
+};

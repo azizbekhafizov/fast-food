@@ -1,54 +1,87 @@
-import {
-  GiHamburger,
-  GiHotDog,
-  GiFullPizza,
-  GiChickenOven,
-  GiFrenchFries,
-  GiSandwich,
-  GiSodaCan,
-  GiCoffeeCup,
-} from "react-icons/gi";
+import { motion } from "framer-motion";
+import { useEffect } from "react";
 
-const categories = [
-  { id: "burger", name: "Burgerlar", icon: <GiHamburger /> },
-  { id: "lavash", name: "Lavashlar", icon: <GiSandwich /> },
-  { id: "hotdog", name: "Hot Doglar", icon: <GiHotDog /> },
-  { id: "pizza", name: "Pizzalar", icon: <GiFullPizza /> },
-  { id: "chicken", name: "Tovuqli taomlar", icon: <GiChickenOven /> },
-  { id: "sides", name: "Kartoshka va gazaklar", icon: <GiFrenchFries /> },
-  { id: "colddrinks", name: "Sovuq ichimliklar", icon: <GiSodaCan /> },
-  { id: "hotdrinks", name: "Issiq ichimliklar", icon: <GiCoffeeCup /> },
-];
+export default function CategoryFilter({ categories, active, setActive }) {
 
-export default function CategoryFilter({ active, setActive }) {
+  const handleCategoryClick = (id) => {
+    setActive(id);
+
+    // Smooth scroll to section
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
-    <div className="sticky top-28 self-start w-[220px] flex flex-col gap-3">
-      {categories.map((cat) => (
-        <button
-          key={cat.id}
-          onClick={() => {
-            setActive(cat.id);
+    <motion.div
+      initial={{ opacity: 0, x: -30 }}
+      animate={{ opacity: 1, x: 0 }}
+      className="space-y-3"
+    >
+      <h3 className="text-lg font-bold text-gray-800 mb-5 px-2">
+        Kategoriyalar
+      </h3>
 
-            document
-              .getElementById(cat.id)
-              ?.scrollIntoView({ behavior: "smooth" });
-          }}
-          className={`
-          flex items-center gap-3
-          px-4 py-3
-          rounded-xl
-          transition
-          ${active === cat.id
-              ? "bg-red-500 text-white"
-              : "bg-white hover:bg-gray-100"
-            }
-          `}
-        >
-          <span className="text-xl">{cat.icon}</span>
+      <div className="flex flex-col gap-2">
+        {categories.map((cat, index) => (
+          <motion.button
+            key={cat.id}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.05 }}
+            whileHover={{ x: 8 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => handleCategoryClick(cat.id)}
+            className={`relative w-full px-4 py-3 rounded-xl font-semibold text-left transition-all duration-300 flex items-center gap-3 group overflow-hidden ${
+              active === cat.id
+                ? "bg-gradient-to-r from-orange-500 to-red-600 text-white shadow-lg"
+                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
+          >
+            {/* Background animation for hover */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+              initial={false}
+            />
 
-          <span className="font-medium">{cat.name}</span>
-        </button>
-      ))}
-    </div>
+            {/* Content */}
+            <span className="relative z-10 text-lg">{cat.icon}</span>
+            <span className="relative z-10 flex-1 truncate text-sm lg:text-base">
+              {cat.name}
+            </span>
+
+            {/* Active Indicator */}
+            {active === cat.id && (
+              <motion.div
+                layoutId="activeIndicator"
+                className="relative z-10 w-2 h-2 bg-white rounded-full"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+              />
+            )}
+          </motion.button>
+        ))}
+      </div>
+
+      {/* Divider */}
+      <div className="h-px bg-gradient-to-r from-gray-200 via-gray-300 to-transparent my-6" />
+
+      {/* Info Box */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="bg-gradient-to-br from-orange-50 to-red-50 border border-orange-200 rounded-xl p-4 space-y-2"
+      >
+        <p className="text-sm font-semibold text-gray-800">
+          💡 Maslahat
+        </p>
+        <p className="text-xs text-gray-600 leading-relaxed">
+          Sayohatning ro'yxatida o'ng tomonda turgan kategoriyalarni bosing yoki o'zidan asl page'ni asdilash uchun avizsyon o'tkazing.
+        </p>
+      </motion.div>
+    </motion.div>
   );
 }
