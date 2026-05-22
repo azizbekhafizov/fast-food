@@ -667,3 +667,46 @@ export const menuData = [
     price: 9000,
   },
 ];
+
+export const featuredItems = [
+  {
+    id: 101,
+    category: "aksiya",
+    name: "Cheese Burger",
+    description: "Yumshoq bulochka, mol go‘shti va eritilgan pishloq.",
+    price: 89000,
+    image: "src/assets/burger-removebg-preview.png",
+    badge: "TOP",
+    color: "from-orange-500 to-red-500",
+  },
+  {
+    id: 102,
+    category: "aksiya",
+    name: "Pepperoni Pizza",
+    description: "Qarsildoq xamir va pepperonili mazali pizza.",
+    price: 135000,
+    image: "src/assets/pizza-removebg-preview.png",
+    badge: "MASHHUR",
+    color: "from-yellow-400 to-orange-500",
+  },
+  {
+    id: 103,
+    category: "aksiya",
+    name: "Chicken Lavash",
+    description: "Tovuq go‘shti va maxsus sousli issiq lavash.",
+    price: 67000,
+    image: "src/assets/lavash-removebg-preview.png",
+    badge: "YANGI",
+    color: "from-red-500 to-pink-500",
+  },
+  {
+    id: 104,
+    category: "aksiya",
+    name: "Fri Kartoshka",
+    description: "Oltindek qovurilgan issiq fri kartoshka.",
+    price: 35000,
+    image: "src/assets/fri-removebg-preview.png",
+    badge: "AKSIYA",
+    color: "from-indigo-500 to-purple-500",
+  },
+];

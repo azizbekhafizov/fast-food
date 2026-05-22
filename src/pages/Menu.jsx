@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FiHeart, FiShoppingCart } from "react-icons/fi";
 import toast from "react-hot-toast";
 
-import { menuData } from "../data/menuData";
+import { menuData, featuredItems } from "../data/menuData";
+const allItems = [...menuData, ...featuredItems];
 import CategoryFilter from "../components/CategoryFilter";
 import ProductModal from "../components/Modal";
 import { useShop } from "../context/ShopContext";
@@ -20,6 +21,7 @@ export default function Menu() {
   } = useShop();
 
   const categories = [
+    { id: "aksiya", name: "Aksiyalar", icon: "🔥" },
     { id: "burger", name: "Burgerlar", icon: "🍔" },
     { id: "lavash", name: "Lavashlar", icon: "🌯" },
     { id: "hotdog", name: "Hot Doglar", icon: "🌭" },
@@ -139,13 +141,14 @@ export default function Menu() {
 
           {categories.map((cat, catIndex) => {
 
-            const items = menuData
+            const items = allItems
               .filter(Boolean)
               .filter(item => item.category === cat.id);
 
             const filteredItems = getFilteredItems(items);
 
             if (!filteredItems.length) return null;
+
 
             return (
               <motion.div
@@ -166,9 +169,6 @@ export default function Menu() {
                       <h2 className="text-3xl lg:text-4xl font-black text-gray-800">
                         {cat.name}
                       </h2>
-                      {/* <p className="text-gray-500 text-sm mt-1">
-                        {filteredItems.length} ta mahsulot
-                      </p> */}
                     </div>
                   </div>
                 </div>

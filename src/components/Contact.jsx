@@ -112,7 +112,7 @@ export default function ContactSection() {
 
               <iframe
                 title="Orom Fast Food Map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2995.5294343114016!2d66.97887091553443!3d39.65593227946666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2995.5294343114016!2d66.97887091553443!3d39.65593227946666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f49d49dbf3a467b%3A0x123456789abcdef!2sSamarqand!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
                 className="w-full h-[420px]"
                 loading="lazy"
               ></iframe>
