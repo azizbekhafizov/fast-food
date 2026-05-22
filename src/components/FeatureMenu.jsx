@@ -1,104 +1,181 @@
+// src/components/FeaturedMenu.jsx
+
 import { motion } from "framer-motion";
+import {
+  IoStar,
+  IoFlash,
+  IoArrowForward,
+} from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const featuredItems = [
   {
     id: 1,
     name: "Cheese Burger",
-    description: "Juicy beef with fresh veggies and melted cheese.",
-    price: "$8.99",
-    image: "src/assets/FeaturaBurger.png",
-    badge: "🔥 Bestseller",
-    badgeColor: "bg-red-500",
+    description: "Yumshoq bulochka, mol go‘shti va eritilgan pishloq.",
+    price: "89 000 so'm",
+    image: "src/assets/burger-removebg-preview.png",
+    badge: "TOP",
+    color: "from-orange-500 to-red-500",
   },
   {
     id: 2,
     name: "Pepperoni Pizza",
-    description: "Crispy crust topped with spicy pepperoni and cheese.",
-    price: "$12.50",
-    image: "src/assets/FeaturePizza.png",
-    badge: "⭐ Popular",
-    badgeColor: "bg-yellow-400",
+    description: "Qarsildoq xamir va pepperonili mazali pizza.",
+    price: "135 000 so'm",
+    image: "src/assets/pizza-removebg-preview.png",
+    badge: "MASHHUR",
+    color: "from-yellow-400 to-orange-500",
   },
   {
     id: 3,
     name: "Chicken Lavash",
-    description:
-      "Freshly grilled chicken wrapped in soft lavash with veggies and sauce.",
-    price: "$6.50",
-    image: "src/assets/FeatureLavash.png", // public/assets/images papkaga joylashtirasiz
-    badge: "🔥 Hot & Fresh",
-    badgeColor: "bg-red-500",
+    description: "Tovuq go‘shti va maxsus sousli issiq lavash.",
+    price: "67 000 so'm",
+    image: "src/assets/lavash-removebg-preview.png",
+    badge: "YANGI",
+    color: "from-red-500 to-pink-500",
   },
   {
     id: 4,
-    name: "French Fries",
-    description: "Golden crispy fries served with ketchup.",
-    price: "$3.50",
-    image: "src/assets/featureFri.png",
-    badge: "⚡ Combo Deal",
-    badgeColor: "bg-indigo-500",
+    name: "Fri Kartoshka",
+    description: "Oltindek qovurilgan issiq fri kartoshka.",
+    price: "35 000 so'm",
+    image: "src/assets/fri-removebg-preview.png",
+    badge: "AKSIYA",
+    color: "from-indigo-500 to-purple-500",
   },
 ];
 
 export default function FeaturedMenu() {
   return (
-    <section className="py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
-        {/* Section header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
-            Our Specials
+    <section className="relative py-20 overflow-hidden bg-[#fff8f5]">
+
+      {/* BG EFFECT */}
+      <div className="absolute top-0 left-0 w-[350px] h-[350px] bg-orange-300/20 blur-[120px] rounded-full"></div>
+
+      <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-red-300/20 blur-[120px] rounded-full"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 relative z-10">
+
+        {/* TOP */}
+        <div className="text-center max-w-2xl mx-auto mb-14">
+
+          <div className="inline-flex items-center gap-2 bg-white shadow-md border border-orange-100 rounded-full px-4 py-2 mb-5">
+            <IoFlash className="text-orange-500" />
+            <span className="text-sm font-semibold text-gray-700">
+              Eng ko‘p buyurtma qilinadigan taomlar
+            </span>
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-black text-gray-900 leading-tight">
+            Mashhur
+            <span className="bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+              {" "}Taomlar
+            </span>
           </h2>
-          <p className="mt-2 text-gray-600">
-            Taste our most loved dishes, freshly prepared for you.
+
+          <p className="mt-5 text-gray-600 text-lg leading-8">
+            Har kuni minglab mijozlar tanlaydigan eng mazali
+            fast food mahsulotlari 🍔
           </p>
         </div>
 
-        {/* Cards grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+
           {featuredItems.map((item, index) => (
             <motion.div
               key={item.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 70 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{
-                delay: index * 0.2,
-                type: "spring",
-                stiffness: 120,
+                duration: 0.6,
+                delay: index * 0.1,
               }}
-              className="relative bg-white rounded-xl shadow-md hover:shadow-2xl transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 flex flex-col items-center p-6"
+              viewport={{ once: true }}
+              whileHover={{ y: -12 }}
+              className="group relative rounded-[34px] bg-white border border-orange-100 shadow-[0_15px_40px_rgba(0,0,0,0.06)] overflow-hidden"
             >
-              {/* Badge */}
+
+              {/* TOP BG */}
               <div
-                className={`${item.badgeColor} absolute top-4 left-4 text-white px-2 py-1 rounded-full text-xs font-bold`}
+                className={`h-[170px] bg-gradient-to-br ${item.color} relative overflow-hidden`}
               >
-                {item.badge}
+
+                {/* BADGE */}
+                <div className="absolute top-4 left-4 bg-white/20 backdrop-blur-md border border-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">
+                  {item.badge}
+                </div>
+
+                {/* GLOW */}
+                <div className="absolute -right-10 -top-10 w-32 h-32 bg-white/20 blur-3xl rounded-full"></div>
+
+                {/* IMAGE */}
+                <motion.img
+                  whileHover={{
+                    rotate: -6,
+                    scale: 1.08,
+                  }}
+                  transition={{ type: "spring" }}
+                  src={item.image}
+                  alt={item.name}
+                  className="absolute bottom-[20px] left-1/2 -translate-x-1/2 w-[210px] object-contain drop-shadow-[0_20px_25px_rgba(0,0,0,0.35)]"
+                />
               </div>
 
-              {/* Image */}
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-32 h-32 object-contain mb-4"
-              />
+              {/* CONTENT */}
+              <div className="pt-24 px-6 pb-6">
 
-              {/* Name & Description */}
-              <h3 className="text-xl font-semibold text-gray-800 mb-2 text-center">
-                {item.name}
-              </h3>
-              <p className="text-gray-500 text-center mb-4">
-                {item.description}
-              </p>
+                {/* RATING */}
+                <div className="flex items-center gap-1 mb-3">
+                  <IoStar className="text-yellow-400" />
+                  <IoStar className="text-yellow-400" />
+                  <IoStar className="text-yellow-400" />
+                  <IoStar className="text-yellow-400" />
+                  <IoStar className="text-yellow-400" />
 
-              {/* Price & Button */}
-              <div className="flex items-center justify-between w-full mt-auto">
-                <span className="text-lg font-bold text-primary">
-                  {item.price}
-                </span>
-                <button className="bg-primary text-white px-4 py-2 rounded-full hover:bg-primary/90 transition">
-                  Order Now
-                </button>
+                  <span className="text-sm text-gray-500 ml-2">
+                    5.0
+                  </span>
+                </div>
+
+                {/* TITLE */}
+                <h3 className="text-2xl font-black text-gray-900">
+                  {item.name}
+                </h3>
+
+                {/* DESC */}
+                <p className="mt-3 text-gray-500 leading-7 text-sm">
+                  {item.description}
+                </p>
+
+                {/* BOTTOM */}
+                <div className="mt-6 flex items-center justify-between">
+
+                  <div>
+                    <p className="text-xs text-gray-400">
+                      Narxi
+                    </p>
+
+                    <h4 className="text-2xl font-black text-orange-500">
+                      {item.price}
+                    </h4>
+                  </div>
+
+                  <motion.button
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.94 }}
+                    className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${item.color} text-white flex items-center justify-center shadow-xl`}
+                  >
+                    <Link to="/menu">
+                      <IoArrowForward size={20} />
+                    </Link>
+                  </motion.button>
+
+                </div>
               </div>
+
             </motion.div>
           ))}
         </div>

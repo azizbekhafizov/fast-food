@@ -166,9 +166,9 @@ export default function Menu() {
                       <h2 className="text-3xl lg:text-4xl font-black text-gray-800">
                         {cat.name}
                       </h2>
-                      <p className="text-gray-500 text-sm mt-1">
+                      {/* <p className="text-gray-500 text-sm mt-1">
                         {filteredItems.length} ta mahsulot
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                 </div>
